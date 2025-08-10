@@ -1,0 +1,198 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bookings — Aliki's Foini House</title>
+  <meta name="description" content="Check availability and request a booking." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+  <div class="container">
+    <header class="site fade-in" role="banner">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1 class="title">Aliki's Foini House <span class="muted">· Cyprus</span></h1>
+          <div class="muted">Cozy mountain stay in Foini</div>
+        </div>
+      </div>
+      <nav class="sitelinks" aria-label="Main">
+        <a href="index.html">Home</a>
+        <a href="booking.html">Booking</a>
+      </nav>
+    </header>
+    <div class="section fade-in card" aria-labelledby="calendar-heading">
+      <header><h2 id="calendar-heading">Availability Calendar</h2></header>
+      <div class="content">
+        <div class="calendar-wrap">
+  <iframe
+    title="Full Availability Calendar"
+    src="https://calendar.google.com/calendar/embed?src=12d83c400cfde66e595091c3de709ebe845cfadcb3b80022c22f1130fac1a281%40group.calendar.google.com&mode=MONTH&showTitle=0&showPrint=0&showTabs=0&showDate=1&showNav=1&showCalendars=0&wkst=1&bgcolor=%230b0f14&ctz=Asia%2FNicosia">
+  </iframe>
+</div>
+
+        <p class="helper" style="margin-top:10px">Tip for mum: To block days, add an event in Google Calendar (e.g., “Booked”). The website updates automatically.</p>
+      </div>
+    </div>
+    <section class="section fade-in card" aria-labelledby="form-heading">
+      <header><h2 id="form-heading">Booking Request</h2></header>
+      <div class="content">
+        <form name="booking-request" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="booking-confirmation.html" id="booking-form">
+          <input type="hidden" name="form-name" value="booking-request" />
+          <p style="display:none"><label>Don’t fill this out: <input name="bot-field" /></label></p>
+          <div class="row two">
+            <div><label for="name">Full name</label><input id="name" name="name" type="text" autocomplete="name" required /></div>
+            <div><label for="phone">Phone</label><input id="phone" name="phone" type="tel" autocomplete="tel" required /></div>
+          </div>
+          <div class="row two">
+            <div><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required /></div>
+            <div><label for="guests">Guests</label><input id="guests" name="guests" type="number" min="1" max="12" value="2" required /></div>
+          </div>
+          <div class="row two">
+  <div>
+    <label for="checkin-time">Check‑in time</label>
+    <input id="checkin-time" name="checkin_time" type="time" value="13:00" readonly />
+  </div>
+  <div>
+    <label for="checkout-time">Check‑out time</label>
+    <input id="checkout-time" name="checkout_time" type="time" value="11:00" readonly />
+  </div>
+</div>
+
+          <div class="row two">
+            <div><label for="checkin">Check‑in</label><input id="checkin" name="checkin" type="date" required /></div>
+            <div><label for="checkout">Check‑out</label><input id="checkout" name="checkout" type="date" required /></div>
+          </div>
+          <div><label for="message">Message (optional)</label><textarea id="message" name="message" placeholder="Any questions or special requests?"></textarea></div>
+          <div><label class="helper"><input type="checkbox" name="consent" required /> I agree you can contact me about this request.</label></div>
+          <button class="btn" type="submit">Send Booking Request</button>
+          <div class="helper">You’ll receive a confirmation email. We’ll respond shortly.</div>
+        </form>
+      </div>
+    </section>
+    <footer class="site fade-in" role="contentinfo">© <span id="year"></span> Aliki's Foini House</footer>
+  </div>
+<script type="module">
+  import { fetchEvents, hasConflict } from './src/app/fetchAvailability.js';
+
+  const CALENDAR_ID = '12d83c400cfde66e595091c3de709ebe845cfadcb3b80022c22f1130fac1a281@group.calendar.google.com';
+  const API_KEY = 'AIzaSyBeYMAzwQeLBkIeTQSPOVhcv3LGGvqvZKo';
+
+  const form = document.getElementById('booking-form');
+  const checkin = document.getElementById('checkin');
+  const checkout = document.getElementById('checkout');
+  const submitBtn = form.querySelector('button[type="submit"]');
+
+  // Enforce 1-night minimum
+  function setMinCheckout() {
+    if (!checkin.value) return;
+    const d = new Date(checkin.value);
+    d.setDate(d.getDate() + 1);
+    checkout.min = d.toISOString().split('T')[0];
+  }
+  setMinCheckout();
+  checkin.addEventListener('change', setMinCheckout);
+
+  function showMsg(text, isError = false) {
+    let el = document.querySelector('#availability-msg');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'availability-msg';
+    }
+    el.className = isError ? 'error-msg' : 'helper';
+    el.textContent = text || '';
+    checkout.insertAdjacentElement('afterend', el);
+  }
+
+  function isValidRange(ci, co) {
+    if (!ci || !co) return false;
+    return new Date(co).getTime() > new Date(ci).getTime(); // at least 1 night
+  }
+
+  async function validateAvailability() {
+    const ci = checkin.value;
+    const co = checkout.value;
+
+    if (!isValidRange(ci, co)) {
+      form.dataset.availability = "no";
+      showMsg('Please choose a check‑out at least one day after check‑in.', true);
+      return false;
+    }
+
+    showMsg('Checking availability…');
+    submitBtn.disabled = true;
+
+    // Fixed check-in/out times
+    const reqStartISO = new Date(ci + 'T13:00:00').toISOString();
+    const reqEndISO   = new Date(co + 'T11:00:00').toISOString();
+
+    // Fetch window that covers exclusive end of all‑day events
+    const timeMin = ci + 'T00:00:00';
+    const coPlus1 = new Date(co); coPlus1.setDate(coPlus1.getDate() + 1);
+    const timeMax = coPlus1.toISOString();
+    console.log('🧪 validateAvailability()', {
+  ci,
+  co,
+  reqStartISO,
+  reqEndISO,
+  timeMin,
+  timeMax
+});
+
+    try {
+      const events = await fetchEvents({
+        calendarId: CALENDAR_ID,
+        apiKey: API_KEY,
+        timeMin,
+        timeMax
+      });
+console.log('📥 events received:', events.length, events);
+
+      const conflict = hasConflict({
+  events,
+  checkin: checkin.value,   // "YYYY-MM-DD"
+  checkout: checkout.value  // "YYYY-MM-DD"
+});
+
+      if (conflict) {
+        form.dataset.availability = "no";
+        showMsg('Those dates overlap an existing booking. Please choose different dates.', true);
+        return false;
+      } else {
+        form.dataset.availability = "ok";
+        showMsg('Dates look available ✔');
+        return true;
+      }
+    } catch (err) {
+      console.error('Availability check failed:', err);
+      form.dataset.availability = "no";
+      showMsg('Couldn’t check availability right now. Please try again in a moment.', true);
+      return false; // Block submit if we couldn’t verify
+    } finally {
+      submitBtn.disabled = false;
+    }
+  }
+
+  // Re-check when dates change
+  checkin.addEventListener('change', validateAvailability);
+  checkout.addEventListener('change', validateAvailability);
+
+  // Do an initial check if both dates pre-filled
+  if (checkin.value && checkout.value) validateAvailability();
+  window.validateAvailability = validateAvailability;
+</script>
+
+
+
+  <script type="module" src="./src/ui/bookingForm.js"></script>
+
+
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
