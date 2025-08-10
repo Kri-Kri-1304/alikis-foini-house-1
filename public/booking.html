@@ -52,20 +52,18 @@
       <header><h2 id="form-heading">Booking Request</h2></header>
       <div class="content">
 <form
-  name="booking-request"
   method="POST"
-  data-netlify="true"
-  netlify-honeypot="bot-field"
-  action="/booking-confirmation.html"
+  action="https://booking-handler.christoschristou2004.workers.dev/booking"
   id="booking-form"
 >
+
   <!-- Netlify needs this hidden input to identify the form -->
-  <input type="hidden" name="form-name" value="booking-request" />
+  <!-- <input type="hidden" name="form-name" value="booking-request" /> -->
 
   <!-- Honeypot (spam protection) -->
-  <p style="display:none">
-    <label>Don’t fill this out: <input name="bot-field" /></label>
-  </p>
+  <!-- <p style="display:none"> -->
+    <!-- <label>Don’t fill this out: <input name="bot-field" /></label>
+  </p> -->
 
   <!-- Your fields -->
   <div class="row two">
