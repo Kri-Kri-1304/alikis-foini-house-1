@@ -136,14 +136,7 @@
     const timeMin = ci + 'T00:00:00';
     const coPlus1 = new Date(co); coPlus1.setDate(coPlus1.getDate() + 1);
     const timeMax = coPlus1.toISOString();
-    console.log('🧪 validateAvailability()', {
-  ci,
-  co,
-  reqStartISO,
-  reqEndISO,
-  timeMin,
-  timeMax
-});
+   
 
     try {
       const events = await fetchEvents({
@@ -152,13 +145,13 @@
         timeMin,
         timeMax
       });
-console.log('📥 events received:', events.length, events);
+// console.log('📥 events received:', events.length, events);
 
-      const conflict = hasConflict({
-  events,
-  checkin: checkin.value,   // "YYYY-MM-DD"
-  checkout: checkout.value  // "YYYY-MM-DD"
-});
+//       const conflict = hasConflict({
+//   events,
+//   checkin: checkin.value,   // "YYYY-MM-DD"
+//   checkout: checkout.value  // "YYYY-MM-DD"
+// });
 
       if (conflict) {
         form.dataset.availability = "no";
@@ -170,7 +163,7 @@ console.log('📥 events received:', events.length, events);
         return true;
       }
     } catch (err) {
-      console.error('Availability check failed:', err);
+      // console.error('Availability check failed:', err);
       form.dataset.availability = "no";
       showMsg('Couldn’t check availability right now. Please try again in a moment.', true);
       return false; // Block submit if we couldn’t verify
