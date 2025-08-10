@@ -153,13 +153,12 @@
         timeMin,
         timeMax
       });
-// console.log('📥 events received:', events.length, events);
+const conflict = hasConflict({
+  events,
+  checkin: checkin.value,   // "YYYY-MM-DD"
+  checkout: checkout.value  // "YYYY-MM-DD"
+});
 
-//       const conflict = hasConflict({
-//   events,
-//   checkin: checkin.value,   // "YYYY-MM-DD"
-//   checkout: checkout.value  // "YYYY-MM-DD"
-// });
 
       if (conflict) {
         form.dataset.availability = "no";
