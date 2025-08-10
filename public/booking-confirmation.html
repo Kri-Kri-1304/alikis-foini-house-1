@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Thank You — Aliki's Foini House</title>
+  <meta name="description" content="Thanks for your booking request — we'll get back to you shortly." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+  <div class="container">
+    <header class="site fade-in" role="banner">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1 class="title">Aliki's Foini House <span class="muted">· Cyprus</span></h1>
+          <div class="muted">Cozy mountain stay in Foini</div>
+        </div>
+      </div>
+      <nav class="sitelinks" aria-label="Main">
+        <a href="/index.html">Home</a>
+        <a href="/booking.html">Booking</a>
+      </nav>
+    </header>
+    <section class="section fade-in card">
+      <header><h2>Thank you!</h2></header>
+      <div class="content">
+        <p>Your booking request was sent successfully. We’ll contact you soon.</p>
+        <div class="cta"><a class="btn" href="index.html">Back to Home</a></div>
+      </div>
+    </section>
+    <footer class="site fade-in" role="contentinfo">© <span id="year"></span> Aliki's Foini House</footer>
+  </div>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
