@@ -51,7 +51,13 @@
     <section class="section fade-in card" aria-labelledby="form-heading">
       <header><h2 id="form-heading">Booking Request</h2></header>
       <div class="content">
-<form name="booking-request" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/booking-confirmation.html" id="booking-form">
+<form name="booking-request"
+      method="POST"
+      data-netlify="true"
+      netlify-honeypot="bot-field"
+      action="/booking-confirmation.html"
+      id="booking-form">
+      
           <input type="hidden" name="form-name" value="booking-request" />
           <p style="display:none"><label>Don’t fill this out: <input name="bot-field" /></label></p>
           <div class="row two">
