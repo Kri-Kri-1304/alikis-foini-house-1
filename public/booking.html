@@ -51,43 +51,83 @@
     <section class="section fade-in card" aria-labelledby="form-heading">
       <header><h2 id="form-heading">Booking Request</h2></header>
       <div class="content">
-<form name="booking-request"
-      method="POST"
-      data-netlify="true"
-      netlify-honeypot="bot-field"
-      action="/booking-confirmation.html"
-      id="booking-form">
-      
-          <input type="hidden" name="form-name" value="booking-request" />
-          <p style="display:none"><label>Don’t fill this out: <input name="bot-field" /></label></p>
-          <div class="row two">
-            <div><label for="name">Full name</label><input id="name" name="name" type="text" autocomplete="name" required /></div>
-            <div><label for="phone">Phone</label><input id="phone" name="phone" type="tel" autocomplete="tel" required /></div>
-          </div>
-          <div class="row two">
-            <div><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required /></div>
-            <div><label for="guests">Guests</label><input id="guests" name="guests" type="number" min="1" max="12" value="2" required /></div>
-          </div>
-          <div class="row two">
-  <div>
-    <label for="checkin-time">Check‑in time</label>
-    <input id="checkin-time" name="checkin_time" type="time" value="13:00" readonly />
-  </div>
-  <div>
-    <label for="checkout-time">Check‑out time</label>
-    <input id="checkout-time" name="checkout_time" type="time" value="11:00" readonly />
-  </div>
-</div>
+<form
+  name="booking-request"
+  method="POST"
+  data-netlify="true"
+  netlify-honeypot="bot-field"
+  action="/booking-confirmation.html"
+  id="booking-form"
+>
+  <!-- Netlify needs this hidden input to identify the form -->
+  <input type="hidden" name="form-name" value="booking-request" />
 
-          <div class="row two">
-            <div><label for="checkin">Check‑in</label><input id="checkin" name="checkin" type="date" required /></div>
-            <div><label for="checkout">Check‑out</label><input id="checkout" name="checkout" type="date" required /></div>
-          </div>
-          <div><label for="message">Message (optional)</label><textarea id="message" name="message" placeholder="Any questions or special requests?"></textarea></div>
-          <div><label class="helper"><input type="checkbox" name="consent" required /> I agree you can contact me about this request.</label></div>
-          <button class="btn" type="submit">Send Booking Request</button>
-          <div class="helper">You’ll receive a confirmation email. We’ll respond shortly.</div>
-        </form>
+  <!-- Honeypot (spam protection) -->
+  <p style="display:none">
+    <label>Don’t fill this out: <input name="bot-field" /></label>
+  </p>
+
+  <!-- Your fields -->
+  <div class="row two">
+    <div>
+      <label for="name">Full name</label>
+      <input id="name" name="name" type="text" autocomplete="name" required />
+    </div>
+    <div>
+      <label for="phone">Phone</label>
+      <input id="phone" name="phone" type="tel" autocomplete="tel" required />
+    </div>
+  </div>
+
+  <div class="row two">
+    <div>
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" autocomplete="email" required />
+    </div>
+    <div>
+      <label for="guests">Guests</label>
+      <input id="guests" name="guests" type="number" min="1" max="12" value="2" required />
+    </div>
+  </div>
+
+  <div class="row two">
+    <div>
+      <label for="checkin-time">Check‑in time</label>
+      <input id="checkin-time" name="checkin_time" type="time" value="13:00" readonly />
+    </div>
+    <div>
+      <label for="checkout-time">Check‑out time</label>
+      <input id="checkout-time" name="checkout_time" type="time" value="11:00" readonly />
+    </div>
+  </div>
+
+  <div class="row two">
+    <div>
+      <label for="checkin">Check‑in</label>
+      <input id="checkin" name="checkin" type="date" required />
+    </div>
+    <div>
+      <label for="checkout">Check‑out</label>
+      <input id="checkout" name="checkout" type="date" required />
+    </div>
+  </div>
+
+  <div>
+    <label for="message">Message (optional)</label>
+    <textarea id="message" name="message" placeholder="Any questions or special requests?"></textarea>
+  </div>
+
+  <div>
+    <label class="helper">
+      <input type="checkbox" name="consent" required />
+      I agree you can contact me about this request.
+    </label>
+  </div>
+
+  <button class="btn" type="submit">Send Booking Request</button>
+  <div class="helper">You’ll receive a confirmation email. We’ll respond shortly.</div>
+</form>
+
       </div>
     </section>
     <!-- hey -->
