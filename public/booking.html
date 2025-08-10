@@ -1,8 +1,15 @@
-
-<!DOCTYPE html>
-<html lang="en">
 <head>
   <meta charset="utf-8" />
+  <meta name="robots" content="noindex, nofollow">
+  <meta http-equiv="Content-Security-Policy"
+      content="
+        default-src 'self';
+        img-src 'self' data: https:;
+        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+        font-src https://fonts.gstatic.com;
+        script-src 'self' 'unsafe-inline';
+        connect-src https://www.googleapis.com;
+        frame-src https://calendar.google.com;">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Bookings — Aliki's Foini House</title>
   <meta name="description" content="Check availability and request a booking." />
@@ -12,6 +19,7 @@
   <link rel="stylesheet" href="assets/styles.css">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 </head>
+
 <body>
   <div class="container">
     <header class="site fade-in" role="banner">
