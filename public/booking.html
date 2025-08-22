@@ -18,6 +18,24 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <style>
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,.45);
+    display: grid; place-items: center; z-index: 1000;
+  }
+  .modal-overlay[hidden] { display: none !important; }
+  .modal { background: #fff; border-radius: 16px; width: min(720px, 92vw); max-height: 88vh;
+           box-shadow: 0 10px 30px rgba(0,0,0,.2); display: flex; flex-direction: column; }
+  .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid rgba(0,0,0,.08); }
+  .modal-body { padding: 0 20px 16px; display: flex; flex-direction: column; gap: 12px; }
+  .modal-scroll { padding: 12px 0; overflow: auto; max-height: 55vh; border-bottom: 1px solid rgba(0,0,0,.08); }
+  .modal-actions { display: flex; gap: 10px; padding-top: 12px; }
+  .modal-close { background: transparent; border: 0; font-size: 22px; line-height: 1; cursor: pointer; }
+  .btn.outline { background: transparent; border: 1px solid currentColor; }
+  #accept-terms[disabled] { opacity: .5; cursor: not-allowed; }
+  @media (max-width: 520px) { .modal { width: 95vw; } }
+</style>
+
 </head>
 
 <body>
@@ -39,13 +57,18 @@
       <header><h2 id="calendar-heading">Availability Calendar</h2></header>
       <div class="content">
         <div class="calendar-wrap">
-  <iframe
-    title="Full Availability Calendar"
-    src="https://calendar.google.com/calendar/embed?src=12d83c400cfde66e595091c3de709ebe845cfadcb3b80022c22f1130fac1a281%40group.calendar.google.com&mode=MONTH&showTitle=0&showPrint=0&showTabs=0&showDate=1&showNav=1&showCalendars=0&wkst=1&bgcolor=%230b0f14&ctz=Asia%2FNicosia">
-  </iframe>
+  <iframe 
+  src="https://calendar.google.com/calendar/embed?src=12d83c400cfde66e595091c3de709ebe845cfadcb3b80022c22f1130fac1a281%40group.calendar.google.com&ctz=Asia/Nicosia" 
+  style="border:0" 
+  width="100%" 
+  height="600" 
+  frameborder="0" 
+  scrolling="no">
+</iframe>
+
 </div>
 
-        <p class="helper" style="margin-top:10px">Tip for mum: To block days, add an event in Google Calendar (e.g., “Booked”). The website updates automatically.</p>
+        <p class="helper" style="margin-top:10px">Days marked with blank also count as booked.</p>
       </div>
     </div>
     <section class="section fade-in card" aria-labelledby="form-heading">
@@ -121,9 +144,23 @@
       I agree you can contact me about this request.
     </label>
   </div>
+<!-- Terms acceptance (modal-trigger + hidden field) -->
+<div>
+  <label class="helper">
+    <input type="hidden" name="terms" id="terms-accepted" value="">
+    By submitting, you agree to our
+    <a href="#" id="open-terms">Terms &amp; Conditions</a>.
+  </label>
+  <div class="helper" id="terms-status" aria-live="polite">You must read and accept the Terms &amp; Conditions.</div>
+</div>
+
 
   <button class="btn" type="submit">Send Booking Request</button>
-  <div class="helper">You’ll receive a confirmation email. We’ll respond shortly.</div>
+  <div id="terms-error" class="error-msg" role="alert" hidden>
+  Please read and accept the Terms &amp; Conditions before sending.
+</div>
+
+  <div class="helper">As soon as the form has been submitted we’ll respond shortly.</div>
 </form>
 
       </div>
@@ -131,6 +168,61 @@
     <!-- hey -->
     <footer class="site fade-in" role="contentinfo">© <span id="year"></span> Aliki's Foini House</footer>
   </div>
+<!-- Terms & Conditions Modal -->
+<div id="terms-modal" class="modal-overlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="tandc-title">
+    <header class="modal-header">
+      <h3 id="tandc-title">Terms &amp; Conditions</h3>
+      <button type="button" class="modal-close" id="close-terms" aria-label="Close">&times;</button>
+    </header>
+    <div class="modal-body">
+      <div class="modal-scroll" id="terms-scroll" tabindex="0" aria-describedby="tandc-title">
+        <!-- YOUR TERMS CONTENT START -->
+        <h4>Reservation Policy</h4>
+        <ul>
+          <li>Aliki's Foini House accommodates maximum 4 people (adults &amp; children in total).</li>
+          <li>Proceeding with booking here is only a request for reservation. Confirmation and payment details will be emailed to you once the request is received.</li>
+          <li>We only accept bank transfers.</li>
+          <li>Minimum stay is 2 nights.</li>
+          <li>You can arrive any day of the week.</li>
+        </ul>
+
+        <h4>Check‑in / Check‑out Policy</h4>
+        <p>Check‑in time is from <strong>13:00</strong> onwards, and check‑out time is maximum by <strong>11:00</strong>. We are happy to accommodate earlier check‑in and/or later check‑out when possible and at no charge, but we can confirm this only two days before arrival/departure.</p>
+        <p><strong>Early Check‑in / Late Check‑out Options:</strong> You can guarantee your preferred time by booking the additional day(s) and paying the daily fee.</p>
+
+        <h4>Payment Details</h4>
+        <ul>
+          <li><strong>50%</strong> deposit to secure any booking.</li>
+          <li>Remaining <strong>50%</strong> due <strong>7 days</strong> before arrival.</li>
+        </ul>
+
+        <h4>Cancellation Policy</h4>
+        <ul>
+          <li>Deposit is <strong>non‑refundable</strong>.</li>
+          <li>Entire amount is non‑refundable for cancellations within <strong>30 days</strong> before arrival.</li>
+        </ul>
+        <p>Please have adequate travel insurance. If we must close the house for any emergency before your arrival we will provide a credit note or full refund. We are not liable for other costs from this action.</p>
+
+        <h4>Dog Policy</h4>
+        <p>For bookings of minimum 4 days we accept dogs up to 20kg provided they do not use beds/sofas. More dogs may be accepted on request—please ask us.</p>
+
+        <h4>Liability</h4>
+        <p>Other than for death or personal injury caused by our negligence or misrepresentation, our total liability to you is limited to the value of the Booking. To the fullest extent permitted by law all warranties are excluded and we are not responsible for indirect or special damages.</p>
+        <p>We do not accept liability for any accident or loss from your car on our premises, or loss of valuables in the house. We are not liable for failure to perform where caused by factors beyond our reasonable control.</p>
+
+        <p class="muted">Aliki's Foini House</p>
+        <!-- YOUR TERMS CONTENT END -->
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn" id="accept-terms" >Accept</button>
+        <button type="button" class="btn outline" id="decline-terms">Decline</button>
+      </div>
+      <div class="helper" id="scroll-hint">Scroll to the bottom to enable “Accept”.</div>
+    </div>
+  </div>
+</div>
+
 <script type="module">
   import { fetchEvents, hasConflict } from './src/app/fetchAvailability.js';
 
@@ -141,7 +233,77 @@
   const checkin = document.getElementById('checkin');
   const checkout = document.getElementById('checkout');
   const submitBtn = form.querySelector('button[type="submit"]');
+// ===== Terms Modal Logic (simple & robust) =====
+(() => {
+  const termsError = document.getElementById('terms-error');
+const showTermsError = (show) => { if (termsError) termsError.hidden = !show; };
+  const form = document.getElementById('booking-form');
+  const openTerms = document.getElementById('open-terms');
+  const termsModal = document.getElementById('terms-modal');
+  const closeTerms = document.getElementById('close-terms');
+  const declineTerms = document.getElementById('decline-terms');
+  const acceptTerms = document.getElementById('accept-terms');
+  const termsScroll = document.getElementById('terms-scroll');
+  const termsAcceptedField = document.getElementById('terms-accepted');
+  const termsStatus = document.getElementById('terms-status');
+  const scrollHint = document.getElementById('scroll-hint');
 
+  if (!form || !openTerms || !termsModal || !closeTerms || !declineTerms ||
+      !acceptTerms || !termsScroll || !termsAcceptedField || !termsStatus || !scrollHint) {
+    console.error('[T&C] Missing DOM element — check IDs.');
+    return;
+  }
+
+  let pendingSubmit = false;
+
+  function openModal() {
+    termsModal.hidden = false;
+    document.documentElement.style.overflow = 'hidden';
+    termsScroll.scrollTop = 0;
+    termsScroll.focus();
+    termsStatus.textContent = 'Please read and accept the Terms & Conditions (Click here).';
+    scrollHint.style.display = '';
+  }
+
+  function closeModal() {
+    termsModal.setAttribute('hidden', '');
+    document.documentElement.style.overflow = '';
+    // don’t focus openTerms to avoid page scroll
+  }
+
+  // Open/close
+  openTerms.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
+  closeTerms.addEventListener('click', closeModal);
+  declineTerms.addEventListener('click', closeModal);
+  termsModal.addEventListener('click', (e) => { if (e.target === termsModal) closeModal(); });
+  window.addEventListener('keydown', (e) => { if (!termsModal.hidden && e.key === 'Escape') closeModal(); });
+
+  // Accept
+ acceptTerms.addEventListener('click', () => {
+  termsAcceptedField.value = 'accepted';
+  termsStatus.textContent = 'Terms & Conditions accepted ✔';
+  showTermsError(false);      // <-- hide warning
+  closeModal();
+  if (pendingSubmit) {
+    pendingSubmit = false;
+    if (typeof form.requestSubmit === 'function') form.requestSubmit();
+    else form.submit();
+  }
+});
+
+
+  // Block submit until accepted
+  form.addEventListener('submit', (e) => {
+    if (termsAcceptedField.value !== 'accepted') {
+        e.preventDefault();
+    pendingSubmit = true;
+    showTermsError(true);     // <-- show inline warning
+    openModal();     
+    }
+  });
+})();
+
+///////////////////////////////////////
   // Enforce 1-night minimum
   function setMinCheckout() {
     if (!checkin.value) return;
@@ -240,4 +402,5 @@ const conflict = hasConflict({
 
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </body>
+
 </html>
