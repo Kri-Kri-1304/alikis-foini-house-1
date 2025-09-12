@@ -8,7 +8,7 @@
         style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
         font-src https://fonts.gstatic.com;
         script-src 'self' 'unsafe-inline';
-        connect-src https://www.googleapis.com;
+        connect-src 'self' https://www.googleapis.com;
         frame-src https://calendar.google.com;">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Bookings — Aliki's Foini House</title>
@@ -19,40 +19,92 @@
   <link rel="stylesheet" href="assets/styles.css">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <style>
-  .modal-overlay {
-    position: fixed; inset: 0; background: rgba(0,0,0,.45);
-    display: grid; place-items: center; z-index: 1000;
-  }
-  .modal-overlay[hidden] { display: none !important; }
-  .modal { background: #fff; border-radius: 16px; width: min(720px, 92vw); max-height: 88vh;
-           box-shadow: 0 10px 30px rgba(0,0,0,.2); display: flex; flex-direction: column; }
-  .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid rgba(0,0,0,.08); }
-  .modal-body { padding: 0 20px 16px; display: flex; flex-direction: column; gap: 12px; }
-  .modal-scroll { padding: 12px 0; overflow: auto; max-height: 55vh; border-bottom: 1px solid rgba(0,0,0,.08); }
-  .modal-actions { display: flex; gap: 10px; padding-top: 12px; }
-  .modal-close { background: transparent; border: 0; font-size: 22px; line-height: 1; cursor: pointer; }
-  .btn.outline { background: transparent; border: 1px solid currentColor; }
-  #accept-terms[disabled] { opacity: .5; cursor: not-allowed; }
-  @media (max-width: 520px) { .modal { width: 95vw; } }
-</style>
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,.45);
+      display: grid; place-items: center; z-index: 1000;
+    }
+    .modal-overlay[hidden] { display: none !important; }
+    .modal {
+  background: var(--panel);
+  color: var(--text);
+  border-radius: 16px;
+  width: min(720px, 92vw);
+  max-height: 88vh;
+  box-shadow: 0 10px 30px rgba(0,0,0,.2);
+  display: flex;
+  flex-direction: column;
+}
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(0,0,0,.08);
+  color: var(--text);
+}
 
+.modal-body {
+  padding: 0 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: var(--text);
+}
+.modal-scroll {
+  padding: 12px 0;
+  overflow: auto;
+  max-height: 55vh;
+  border-bottom: 1px solid rgba(0,0,0,.08);
+  color: var(--text);
+}
+    .modal-actions { display: flex; gap: 10px; padding-top: 12px; }
+    .modal-close { background: transparent; border: 0; font-size: 22px; line-height: 1; cursor: pointer; }
+    .btn.outline { background: transparent; border: 1px solid currentColor; }
+    #accept-terms[disabled] { opacity: .5; cursor: not-allowed; }
+    @media (max-width: 520px) { .modal { width: 95vw; } }
+    /* Terms & Conditions styling */
+.terms-link {
+  color: var(--brand);
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color .2s ease;
+}
+.terms-link:hover {
+  color: var(--accent-warm);
+}
+
+.info-icon {
+  margin-left: 4px;
+  font-size: 0.9rem;
+  color: var(--muted);
+  cursor: help;
+}
+
+#terms-status {
+  margin-top: 6px;
+  font-size: .9rem;
+  color: var(--tangerine);
+  font-weight: 500;
+}
+:root[data-theme="dark"] .modal,
+:root[data-theme="dark"] .modal-header,
+:root[data-theme="dark"] .modal-body,
+:root[data-theme="dark"] .modal-scroll {
+  border-color: rgba(255,255,255,.1);
+}
+
+
+  </style>
 </head>
+
 
 <body>
   <div class="container">
-    <header class="site fade-in" role="banner">
-      <div class="brand">
-        <div class="logo" aria-hidden="true"></div>
-        <div>
-          <h1 class="title">Aliki's Foini House <span class="muted">· Cyprus</span></h1>
-          <div class="muted">Cozy mountain stay in Foini</div>
-        </div>
-      </div>
-      <nav class="sitelinks" aria-label="Main">
-        <a href="index.html">Home</a>
-        <a href="booking.html">Booking</a>
-      </nav>
-    </header>
+    <!-- Shared navigation -->
+<div id="nav-placeholder"></div>
+<script src="src/ui/nav.js"></script>
+
     <div class="section fade-in card" aria-labelledby="calendar-heading">
       <header><h2 id="calendar-heading">Availability Calendar</h2></header>
       <div class="content">
@@ -138,21 +190,29 @@
     <textarea id="message" name="message" placeholder="Any questions or special requests?"></textarea>
   </div>
 
-  <div>
-    <label class="helper">
-      <input type="checkbox" name="consent" required />
-      I agree you can contact me about this request.
-    </label>
-  </div>
+<div class="consent-block">
+  <label class="helper right-check">
+    <span class="consent-text">I agree you can contact me about this request.</span>
+    <input type="checkbox" name="consent" required />
+  </label>
+</div>
+
+
+
+
 <!-- Terms acceptance (modal-trigger + hidden field) -->
-<div>
+<div class="terms-block">
   <label class="helper">
     <input type="hidden" name="terms" id="terms-accepted" value="">
     By submitting, you agree to our
-    <a href="#" id="open-terms">Terms &amp; Conditions</a>.
+    <a href="#" id="open-terms" class="terms-link">Terms &amp; Conditions</a>
+    <span class="info-icon" title="Click to read the Terms &amp; Conditions">ℹ️</span>.
   </label>
-  <div class="helper" id="terms-status" aria-live="polite">You must read and accept the Terms &amp; Conditions.</div>
+  <div id="terms-status" aria-live="polite">
+    You must read and accept the Terms &amp; Conditions.
+  </div>
 </div>
+
 
 
   <button class="btn" type="submit">Send Booking Request</button>
@@ -261,7 +321,7 @@ const showTermsError = (show) => { if (termsError) termsError.hidden = !show; };
     document.documentElement.style.overflow = 'hidden';
     termsScroll.scrollTop = 0;
     termsScroll.focus();
-    termsStatus.textContent = 'Please read and accept the Terms & Conditions (Click here).';
+    termsStatus.textContent = 'Please read and accept the Terms & Conditions (Click above!).';
     scrollHint.style.display = '';
   }
 
