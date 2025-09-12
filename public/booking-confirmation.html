@@ -2,30 +2,32 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
+  <meta name="robots" content="noindex, nofollow">
+  <meta http-equiv="Content-Security-Policy"
+      content="
+        default-src 'self';
+        img-src 'self' data: https:;
+        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+        font-src https://fonts.gstatic.com;
+        script-src 'self' 'unsafe-inline';
+        connect-src 'self' https://www.googleapis.com;
+        frame-src https://calendar.google.com;">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Thank You — Aliki's Foini House</title>
-  <meta name="description" content="Thanks for your booking request — we'll get back to you shortly." />
+  <title>Booking Confirmation — Aliki's Foini House</title>
+  <meta name="description" content="Your booking request has been received by Aliki's Foini House." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 </head>
+
 <body>
   <div class="container">
-    <header class="site fade-in" role="banner">
-      <div class="brand">
-        <div class="logo" aria-hidden="true"></div>
-        <div>
-          <h1 class="title">Aliki's Foini House <span class="muted">· Cyprus</span></h1>
-          <div class="muted">Cozy mountain stay in Foini</div>
-        </div>
-      </div>
-      <nav class="sitelinks" aria-label="Main">
-        <a href="/index.html">Home</a>
-        <a href="/booking.html">Booking</a>
-      </nav>
-    </header>
+    <!--  Shared navigation -->
+<div id="nav-placeholder"></div>
+<script src="src/ui/nav.js"></script>
+
     <section class="section fade-in card">
       <header><h2>Thank you!</h2></header>
       <div class="content">
