@@ -15,6 +15,56 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>About Us — Aliki's Foini House</title>
   <link rel="stylesheet" href="assets/styles.css" />
+  <style>
+    .about-section {
+      margin: 50px auto;
+      max-width: 1100px;
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba (0,0,0,.15);
+    }
+    .about-section h2 {
+      font-size: 2rem;
+      padding: 30px;
+      margin-bottom: 20px;
+      color: var(--brand);
+      text-align: center;
+    }
+    .about-section p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      margin-bottom: 18px;
+      text-align: justify;
+    }
+
+    /* Reviews gallery */
+    .reviews {
+      margin-top: 40px;
+    }
+    .reviews h3 {
+      font-size: 1.6rem;
+      margin-bottom: 20px;
+      color: var(--brand);
+      text-align: center;
+    }
+    .review-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+      gap:20px;
+      margin-top:24px;
+    }
+    .review-gallery img {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow:0 6px 18px rgba(0,0,0,.2);
+      background: #fff;
+      display: block;
+    }
+    .review-gallery img:hover {
+      transform: scale(1.03);
+    }
+  </style>
 </head>
 <body>
   <!-- ✅ Shared nav -->
@@ -22,18 +72,44 @@
   <script src="src/ui/nav.js"></script>
 
   <main class="content">
-    <h2>About Us</h2>
-    <p><strong>The Christou family!</strong> Your hosts: Alice and Afxentis, we live in Larnaca, although we have the mountains in our veins...</p>
+    <section class="about-section fade-in card">
+      <h2>About Us</h2>
+      <p><strong>The Christou family!</strong> Your hosts: Alice and Afxentis, we live in Larnaca, although we have the mountains in our veins...</p>
 
-    <p>We were searching for a small but solid property, affordable, with plenty of tourist activities nearby so we could keep our 2 children entertained, good neighbours and friendly villagers — and we are blessed to have found our Foini escape...</p>
+      <p>We were searching for a small but solid property, affordable, with plenty of tourist activities nearby so we could keep our 2 children entertained, good neighbours and friendly villagers — and we are blessed to have found our Foini escape...</p>
 
-    <p>Every time we arrive at Foini, we get a full recharge from the air of the mountains, people, nature and we are captivated by the beauty of the untouched countryside...</p>
+      <p>Every time we arrive at Foini, we get a full recharge from the air of the mountains, people, nature and we are captivated by the beauty of the untouched countryside...</p>
 
-    <p>Exceptionally peaceful and ideal for up to 4 guests, small families or couples that just want their own space for a while.</p>
+      <p>Exceptionally peaceful and ideal for up to 4 guests, small families or couples that just want their own space for a while.</p>
 
-    <p>We have so much enjoyed welcoming guests and have been thrilled to know they have felt the peace and recharging of Foini and depart with such fond memories...</p>
+      <p>We have so much enjoyed welcoming guests and have been thrilled to know they have felt the peace and recharging of Foini and depart with such fond memories...</p>
 
-    <p>We know that being here is our destiny and we hope you will decide to join us.</p>
+      <p>We know that being here is our destiny and we hope you will decide to join us.</p>
+    </section>
+
+    <section class="reviews fade-in card">
+      <h3>What Our Guests Say</h3>
+      <div class="review-gallery">
+        <!-- Replace these with your 13–14 review images -->
+        <img src="assets/reviews/rev_1.jpg" alt="Guest review 1">
+        <img src="assets/reviews/rev_2.jpg" alt="Guest review 2">
+        <img src="assets/reviews/rev_3.jpg" alt="Guest review 3">
+        <img src="assets/reviews/rev_4.jpg" alt="Guest review 4">
+        <img src="assets/reviews/rev_5.jpg" alt="Guest review 5">
+        <img src="assets/reviews/rev_6.jpg" alt="Guest review 6">
+        <img src="assets/reviews/rev_7.jpg" alt="Guest review 7">
+        <img src="assets/reviews/rev_8.jpg" alt="Guest review 8">
+        <img src="assets/reviews/rev_9.jpg" alt="Guest review 9">
+        <img src="assets/reviews/rev_10.jpg" alt="Guest review 10">
+        <img src="assets/reviews/rev_11.jpg" alt="Guest review 11">
+        <img src="assets/reviews/rev_12.jpg" alt="Guest review 12">
+        <img src="assets/reviews/rev_13.jpg" alt="Guest review 13">
+        <img src="assets/reviews/rev_14.jpg" alt="Guest review 14">
+        <img src="assets/reviews/rev_15.jpg" alt="Guest review 15">
+        <img src="assets/reviews/rev_16.jpg" alt="Guest review 16">
+        
+      </div>
+    </section>
   </main>
 
   <footer class="footer">
