@@ -19,6 +19,28 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <style>
+    .external-links-inline {
+      display: inline-flex;
+      gap: 12px;
+      margin-left: 20px;
+      vertical-align: middle;
+    }
+    .external-links-inline a {
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: var(--brand);
+      color: #000;
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-decoration: none;
+      transition: background .2s ease, color .2s ease;
+    }
+    .external-links-inline a:hover {
+      background: var(--accent-warm);
+      color: #fff;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -57,7 +79,16 @@
     </section>
 
     <section class="card section fade-in">
-      <header><h2>About the House</h2></header>
+      <header>
+        <h2>
+          About the House ⬇️➡️
+          <!-- ✅ External links styled as buttons -->
+          <span class="external-links-inline">
+            <a href="https://maps.app.goo.gl/nEr3aF83xcKFFmax8?g_st=a" target="_blank" rel="noopener">📍 Google Maps</a>
+            <a href="https://youtu.be/fVWs0uyL71I?si=SnHRh7PL1_xyhu4i" target="_blank" rel="noopener">▶️ Video Tour</a>
+          </span>
+        </h2>
+      </header>
       <div class="content about-grid">
 
         <div class="about-gallery">
